@@ -1,0 +1,21 @@
+extends Layout/main-layout.pug
+block References
+    link(rel="stylesheet", href="/css/products.css")
+block Content
+    main
+        if prods.length > 0 
+            div.grid
+                each product in prods
+                    article.card__header
+                        header.card__header
+                            h1.product__title #{product.title}
+                        div.card__image
+                            img(src="https://thumbs-prod.si-cdn.com/ufPRE9RHUDHqQdOsLvYHhJAxy1k=/fit-in/1600x0/https://public-media.si-cdn.com/filer/91/91/91910c23-cae4-46f8-b7c9-e2b22b8c1710/lostbook.jpg", alt="A Book")
+                        div.card__content
+                            h2.card__price $19.99
+                            p.product__description A very interesting book about so many information
+                        div.card__actions
+                            button.btn Add to cart 
+        else 
+
+            h1 No products
