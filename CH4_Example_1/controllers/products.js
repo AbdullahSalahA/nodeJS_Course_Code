@@ -2,7 +2,7 @@ const Products = require('../Models/Product.js');
 
 exports.getAddProducts = (req, res, next)=>{
     // res.sendFile(path.join(rootdir,'views','add-product.html')); this for the HTML way now i will use pug lib
-    res.render('add-product.pug', {
+    res.render('add-product.ejs', {
         docTitle: 'Add product',
         path: '/admin/add-product',
         addProductIsActive: true,
@@ -22,9 +22,9 @@ exports.getProduct = (req, res, next)=>{
    //  res.render('shop');//shop.pug
     Products.fetchAll((products_read_buffer) => {
 
-        res.render('shop.pug', {
+        res.render('shop.ejs', {
             prods: products_read_buffer,
-            doctitle: 'shop',
+            docTitle: 'shop',
             path: '/shop',
             prodLen: products_read_buffer.length > 0,
             shopIsActive: true
