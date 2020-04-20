@@ -1,8 +1,8 @@
-<%- include('./includes/head.ejs')%>
+<%- include('../includes/head.ejs')%>
 </head>
 
 <body>
-    <%- include('./includes/navigation.ejs')%> 
+    <%- include('../includes/navigation.ejs')%> 
 
     <main>
         <% if (prods.length > 0 ){ %>
@@ -12,11 +12,11 @@
                         <header class="card__header">
                             <h1 class="product__title"> <%= product.title %> </h1>
                         <div class="card__image">
-                             <img src="https://thumbs-prod.si-cdn.com/ufPRE9RHUDHqQdOsLvYHhJAxy1k=/fit-in/1600x0/https://public-media.si-cdn.com/filer/91/91/91910c23-cae4-46f8-b7c9-e2b22b8c1710/lostbook.jpg" alt="A Book">
+                             <img src=" <%= product.imageUrl %> " alt="<%= product.title %>">
                         </div>
                         <div class="card__content">
-                            <h2 class="card__price"> $19.99</h2>
-                            <p class=" product__description"> A very interesting book about so many information </p>
+                            <h2 class="card__price"> <%= product.price %></h2>
+                            <p class=" product__description"> <%= product.description %> </p>
                         </div>
                         <div class="card__actions">
                             <button class="btn">
@@ -31,4 +31,4 @@
             <h1> page not found </h1>
         <% } %>
     </main>
-<%- include('./includes/end.ejs')%>  
+<%- include('../includes/end.ejs')%>  
