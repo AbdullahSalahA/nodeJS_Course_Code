@@ -1,42 +1,31 @@
-const Products = require('../Models/Product.js');
+const Product = require('../models/product');
 
-exports.getAddProducts = (req, res, next)=>{
-    // res.sendFile(path.join(rootdir,'views','add-product.html')); this for the HTML way now i will use pug lib
-    res.render('admin/add-product', {
-        docTitle: 'Add product',
-        path: '/admin/add-product'
+exports.getAddProduct = (req, res, next) => {
+  res.render('admin/add-product', {
+    pageTitle: 'Add Product',
+    path: '/admin/add-product',
+    formsCSS: true,
+    productCSS: true,
+    activeAddProduct: true
+  });
+};
+
+exports.postAddProduct = (req, res, next) => {
+  const title = req.body.title;
+  const imageUrl = req.body.imageUrl;
+  const price = req.body.price;
+  const description = req.body.description;
+  const product = new Product(title, imageUrl, description, price);
+  product.save();
+  res.redirect('/');
+};
+
+exports.getProducts = (req, res, next) => {
+  Product.fetchAll(products => {
+    res.render('admin/products', {
+      prods: products,
+      pageTitle: 'Admin Products',
+      path: '/admin/products'
     });
-}
-
-
-exports.postAddProduct =  (req, res, next)=>{
-    const product_ = new Products(
-        req.body.title,
-        req.body.imageUrl,
-        req.body.description,
-        req.body.price        
-    );
-    product_.save();
-    res.redirect('/');
-}
-
-exports.getAdminProduct= (req, res, next) => {
-
-    Products.fetchAll((products_read_buffer) => {
-
-        res.render('admin/products.ejs', {
-            prods: products_read_buffer,
-            docTitle: 'Admin Product',
-            path: '/admin/products',
-            prodLen: products_read_buffer.length > 0
-        });
-    }); 
-}
-exports.getEditProduct= (req, res, next) => {
-    
-    res.render('admin/products.ejs', {
-        docTitle: 'Admin Product',
-        path: '/admin/products'
-    });
-}
-
+  });
+};

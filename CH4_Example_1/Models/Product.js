@@ -1,41 +1,40 @@
-const path = require('path');
 const fs = require('fs');
+const path = require('path');
 
-const dataFilePath = path.join(
-    path.dirname(process.mainModule.filename),
-    'data',
-    'product.json');
+const p = path.join(
+  path.dirname(process.mainModule.filename),
+  'data',
+  'products.json'
+);
 
-const getProductData = (cb) => {
-    fs.readFile(dataFilePath, (err, fileContent) => {
-        if (err) {
-           return cb([]);
-        }
-        else
-        {
-          cb(JSON.parse(fileContent));
-        }
-    });
-}
+const getProductsFromFile = cb => {
+  fs.readFile(p, (err, fileContent) => {
+    if (err) {
+      cb([]);
+    } else {
+      cb(JSON.parse(fileContent));
+    }
+  });
+};
+
 module.exports = class Product {
+  constructor(title, imageUrl, description, price) {
+    this.title = title;
+    this.imageUrl = imageUrl;
+    this.description = description;
+    this.price = price;
+  }
 
-    constructor(title, imageUrl, description, price) {
-        this.title = title;
-        this.imageUrl = imageUrl;
-        this.description = description;
-        this.price = price;
-    }
+  save() {
+    getProductsFromFile(products => {
+      products.push(this);
+      fs.writeFile(p, JSON.stringify(products), err => {
+        console.log(err);
+      });
+    });
+  }
 
-    save() {
-        getProductData((products) => {
-            products.push(this);
-            fs.writeFile(dataFilePath, JSON.stringify(products), (err) => {
-                console.log(err);
-            });
-        })
-    }
-
-    static fetchAll(cb) {
-        getProductData(cb);
-    }
-}
+  static fetchAll(cb) {
+    getProductsFromFile(cb);
+  }
+};
